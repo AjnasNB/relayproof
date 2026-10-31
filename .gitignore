@@ -1,0 +1,7 @@
+node_modules/
+.wrangler/
+.qarinah/
+.env*
+.dev.vars*
+worker-configuration.d.ts
+artifacts/latest.json

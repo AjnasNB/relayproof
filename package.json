@@ -1,0 +1,27 @@
+{
+  "name": "relayproof",
+  "version": "1.0.0",
+  "description": "Concurrent Mozaik agents review freight documents and produce cited, unsent handoff drafts.",
+  "scripts": {
+    "test": "tsx --test tests/*.test.ts",
+    "check": "tsc --noEmit",
+    "demo": "tsx src/cli.ts",
+    "bridge": "wrangler dev --ip 127.0.0.1 --port 8787",
+    "types": "wrangler types",
+    "check:worker": "tsc --ignoreConfig --noEmit --target ES2023 --module ESNext --moduleResolution Bundler --skipLibCheck worker-configuration.d.ts worker/inference.ts",
+    "viewer": "node scripts/viewer.mjs"
+  },
+  "keywords": [],
+  "author": "Ajnas N B",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "@mozaik-ai/core": "4.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "wrangler": "^4.156.0"
+  }
+}

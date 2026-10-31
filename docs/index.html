@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><title>RelayProof — freight handoff review</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #292d29;
+      --muted: #686d66;
+      --line: #eaeaea;
+      --paper: #f7f6f3;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font:
+        16px/1.6 "Helvetica Neue",
+        Arial,
+        sans-serif;
+    }
+    main {
+      max-width: 1180px;
+      margin: auto;
+      padding: 35px 28px 90px;
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 20px;
+    }
+    a {
+      color: inherit;
+      text-underline-offset: 4px;
+    }
+    header {
+      padding: 65px 0 40px;
+      max-width: 850px;
+    }
+    .eyebrow,
+    .meta {
+      font: 12px/1.5 monospace;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    h1 {
+      font:
+        64px/1.04 Georgia,
+        serif;
+      letter-spacing: -0.045em;
+      margin: 18px 0 24px;
+    }
+    h2 {
+      font:
+        32px/1.1 Georgia,
+        serif;
+      letter-spacing: -0.025em;
+      margin: 0 0 20px;
+    }
+    h3 {
+      font-size: 17px;
+      margin: 0 0 14px;
+    }
+    p {
+      margin: 0 0 14px;
+    }
+    .intro {
+      font-size: 19px;
+      max-width: 650px;
+      color: var(--muted);
+    }
+    .status {
+      display: inline-block;
+      background: #fbf3db;
+      color: #705013;
+      padding: 7px 12px;
+      font: 12px monospace;
+      margin: 12px 0 0;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border: 1px solid var(--line);
+      background: white;
+      margin-bottom: 45px;
+    }
+    .stat {
+      padding: 25px;
+      border-right: 1px solid var(--line);
+    }
+    .stat:last-child {
+      border: 0;
+    }
+    .number {
+      font:
+        38px Georgia,
+        serif;
+      display: block;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 24px;
+    }
+    .panel {
+      padding: 28px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      min-width: 0;
+    }
+    .wide {
+      grid-column: 1/-1;
+    }
+    section {
+      margin: 24px 0 0;
+    }
+    .lane {
+      margin: 20px 0;
+    }
+    .track {
+      height: 14px;
+      background: #f0efec;
+      position: relative;
+      margin-top: 8px;
+    }
+    .bar {
+      height: 100%;
+      position: absolute;
+      background: #8ba296;
+      border-radius: 2px;
+    }
+    .lane:last-child .bar {
+      background: #b6aa8f;
+    }
+    .lane-name {
+      display: flex;
+      justify-content: space-between;
+      font: 12px monospace;
+    }
+    .finding {
+      padding: 17px 0;
+      border-top: 1px solid var(--line);
+    }
+    .tag {
+      font: 10px monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      background: #fdefed;
+      padding: 3px 7px;
+      color: #8c3c35;
+      margin-right: 8px;
+    }
+    blockquote {
+      margin: 12px 0 0;
+      border-left: 2px solid #d9ddd6;
+      padding-left: 14px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    cite {
+      display: block;
+      font: 11px monospace;
+      margin-top: 4px;
+    }
+    .draft {
+      font:
+        20px/1.6 Georgia,
+        serif;
+    }
+    .note {
+      color: var(--muted);
+      font-size: 13px;
+    }
+    details {
+      border-top: 1px solid var(--line);
+      padding: 12px 0;
+    }
+    summary {
+      cursor: pointer;
+    }
+    pre {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      font: 12px/1.6 monospace;
+    }
+    button {
+      background: #292d29;
+      color: white;
+      border: 0;
+      border-radius: 4px;
+      padding: 12px 16px;
+      cursor: pointer;
+    }
+    button:focus-visible,
+    a:focus-visible,
+    summary:focus-visible {
+      outline: 3px solid #97ab9a;
+      outline-offset: 4px;
+    }
+    footer {
+      margin-top: 50px;
+      border-top: 1px solid var(--line);
+      padding-top: 22px;
+    }
+    .error {
+      color: #9f2f2d;
+    }
+    @media (max-width: 700px) {
+      main {
+        padding: 25px 18px 50px;
+      }
+      h1 {
+        font-size: 44px;
+      }
+      header {
+        padding-top: 40px;
+      }
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      .stats {
+        grid-template-columns: 1fr;
+      }
+      .stat {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .panel {
+        padding: 22px;
+      }
+      nav {
+        font-size: 13px;
+      }
+    }
+  </style>
+  <main>
+    <nav>
+      <strong>RELAYPROOF</strong
+      ><a href="https://github.com/AjnasNB/relayproof"
+        >Source & run instructions ↗</a
+      >
+    </nav>
+    <header>
+      <div class="eyebrow">Freestyle / NTP Novi Sad Hackathon 2026</div>
+      <h1>Two checks.<br />One clearer handoff.</h1>
+      <p class="intro">
+        Concurrent agents review shipment documents and timing. An operator gets
+        cited findings and a draft to review.
+      </p>
+      <span class="status">RECORDED REAL-MODEL RUN · SYNTHETIC DOCUMENTS</span>
+    </header>
+    <div id="loading" role="status">Loading the recorded run…</div>
+    <div id="content" hidden>
+      <div class="stats">
+        <div class="stat">
+          <span class="number" id="parallel"></span
+          ><span class="meta">Maximum concurrent inferences</span>
+        </div>
+        <div class="stat">
+          <span class="number" id="overlap"></span
+          ><span class="meta">Measured overlap</span>
+        </div>
+        <div class="stat">
+          <span class="number">3</span
+          ><span class="meta">Mozaik agent participants</span>
+        </div>
+      </div>
+      <div class="grid">
+        <section class="panel">
+          <div class="eyebrow">01 / Execution</div>
+          <h2>Working together.</h2>
+          <p class="note">
+            Document and handoff checkers start from the same operator event.
+            The review drafter starts after both reports pass citation checks.
+          </p>
+          <div id="timeline"></div>
+          <p class="note" id="backend"></p>
+        </section>
+        <section class="panel">
+          <div class="eyebrow">02 / Disposition</div>
+          <h2 id="verdict"></h2>
+          <p>
+            Nothing is sent, booked or dispatched. Every draft remains a
+            proposal for an operator.
+          </p>
+          <p class="note">
+            These bars replay observed inference timestamps. This page does not
+            run inference or simulate a live agent session.
+          </p>
+          <a href="receipt.json">Download the original run receipt ↗</a>
+        </section>
+        <section class="panel wide">
+          <div class="eyebrow">03 / Cited review</div>
+          <h2>What needs a second look.</h2>
+          <div id="findings"></div>
+        </section>
+        <section class="panel">
+          <div class="eyebrow">04 / Unsent draft</div>
+          <h2>For the operator.</h2>
+          <p class="draft" id="draft"></p>
+          <p class="note">
+            Read and edit before use. Source matching verifies that a quote
+            exists, not that a model’s conclusion is correct.
+          </p>
+          <button id="copy" type="button">Copy draft</button
+          ><span id="copy-status" role="status"></span>
+        </section>
+        <section class="panel">
+          <div class="eyebrow">05 / Inputs</div>
+          <h2>Inspect the source packet.</h2>
+          <div id="sources"></div>
+        </section>
+      </div>
+    </div>
+    <footer>
+      <p class="note">
+        Built by Ajnas N B during 31 October 2026 with OpenAI Codex assistance.
+        Mozaik 4.2.0 runs the agent loops; Cloudflare Workers AI supplies
+        inference. No customer documents or measured business impact are
+        claimed.
+      </p>
+    </footer>
+  </main>
+  <script type="module">
+    const el = (id) => document.getElementById(id);
+    const node = (tag, text, cls) => {
+      const e = document.createElement(tag);
+      e.textContent = text;
+      if (cls) e.className = cls;
+      return e;
+    };
+    try {
+      const [r, p] = await Promise.all([
+        fetch("receipt.json").then((x) => {
+          if (!x.ok) throw Error("Receipt unavailable");
+          return x.json();
+        }),
+        fetch("packet.json").then((x) => {
+          if (!x.ok) throw Error("Packet unavailable");
+          return x.json();
+        }),
+      ]);
+      el("parallel").textContent = r.maxConcurrentInferences;
+      el("overlap").textContent = (r.overlapMs / 1000).toFixed(2) + "s";
+      el("backend").textContent = r.backend;
+      el("verdict").textContent = r.status.replaceAll("_", " ");
+      for (const check of r.requiredChecks || []) {
+        el("findings").append(node("p", "Required field check: " + check));
+      }
+      const end = Math.max(...r.trace.map((x) => x.at), 1);
+      for (const name of [
+        "document-checker",
+        "handoff-checker",
+        "review-drafter",
+      ]) {
+        const start = r.trace.find(
+          (x) => x.agent === name && x.kind === "inference.start",
+        )?.at;
+        const stop = r.trace.find(
+          (x) => x.agent === name && x.kind === "inference.end",
+        )?.at;
+        if (start === undefined || stop === undefined) continue;
+        const lane = node("div", "", "lane"),
+          label = node("div", "", "lane-name");
+        label.append(
+          node("span", name),
+          node("span", ((stop - start) / 1000).toFixed(2) + "s"),
+        );
+        const track = node("div", "", "track"),
+          bar = node("div", "", "bar");
+        bar.style.left = (start / end) * 100 + "%";
+        bar.style.width = ((stop - start) / end) * 100 + "%";
+        track.append(bar);
+        lane.append(label, track);
+        el("timeline").append(lane);
+      }
+      for (const f of r.reports["review-drafter"]?.findings || []) {
+        const div = node("div", "", "finding"),
+          title = node("h3", "");
+        title.append(
+          node("span", f.severity, "tag"),
+          document.createTextNode(f.summary),
+        );
+        div.append(title);
+        for (const e of f.evidence) {
+          const q = node("blockquote", e.quote);
+          q.append(node("cite", e.sourceId));
+          div.append(q);
+        }
+        el("findings").append(div);
+      }
+      el("draft").textContent =
+        r.draft || "No usable draft; inspect the failed review.";
+      el("copy").disabled = !r.draft;
+      el("copy").onclick = async () => {
+        try {
+          await navigator.clipboard.writeText(r.draft);
+          el("copy-status").textContent = " Copied.";
+        } catch {
+          el("copy-status").textContent = " Select the draft text to copy.";
+        }
+      };
+      for (const s of p.sources) {
+        const d = node("details", "");
+        d.append(node("summary", s.id), node("pre", s.text));
+        el("sources").append(d);
+      }
+      el("loading").hidden = true;
+      el("content").hidden = false;
+    } catch (e) {
+      el("loading").textContent = e.message;
+      el("loading").className = "error";
+    }
+  </script>
+</html>

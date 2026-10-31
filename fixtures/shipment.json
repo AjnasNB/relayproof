@@ -1,0 +1,10 @@
+{
+  "id":"SYNTHETIC-DXB-MAN-031",
+  "synthetic":true,
+  "sources":[
+    {"id":"booking","text":"Shipment SYNTHETIC-DXB-MAN-031. Dubai to Manchester. Booked quantity: 12 cartons. Documentation cutoff: 2026-10-31T12:00:00Z. Departure: 2026-11-01T03:00:00Z."},
+    {"id":"invoice","text":"Invoice INV-DEMO-31. Shipment SYNTHETIC-DXB-MAN-031. Quantity: 12 cartons. Declared weight: 240 kg."},
+    {"id":"packing","text":"Packing list PK-DEMO-31. Shipment SYNTHETIC-DXB-MAN-031. Quantity: 10 cartons. Declared weight: 240 kg."},
+    {"id":"handoff","text":"Operations note for SYNTHETIC-DXB-MAN-031: export clearance pending. Documents expected at 2026-10-31T13:30:00Z. Do not book or dispatch automatically."}
+  ]
+}

@@ -1,0 +1,293 @@
+{
+  "packetId": "SYNTHETIC-DXB-MAN-031",
+  "synthetic": true,
+  "backend": "Cloudflare Workers AI / llama-3.3-70b-instruct-fp8-fast",
+  "status": "blocked_for_review",
+  "reports": {
+    "handoff-checker": {
+      "findings": [
+        {
+          "summary": "Carton quantity mismatch",
+          "severity": "blocker",
+          "evidence": [
+            {
+              "sourceId": "booking",
+              "quote": "Booked quantity: 12 cartons"
+            },
+            {
+              "sourceId": "packing",
+              "quote": "Quantity: 10 cartons"
+            }
+          ]
+        },
+        {
+          "summary": "Export clearance pending",
+          "severity": "question",
+          "evidence": [
+            {
+              "sourceId": "handoff",
+              "quote": "export clearance pending"
+            }
+          ]
+        },
+        {
+          "summary": "Departure after documentation cutoff",
+          "severity": "info",
+          "evidence": [
+            {
+              "sourceId": "booking",
+              "quote": "Departure: 2026-11-01T03:00:00Z"
+            },
+            {
+              "sourceId": "booking",
+              "quote": "Documentation cutoff: 2026-10-31T12:00:00Z"
+            }
+          ]
+        },
+        {
+          "summary": "Documents expected after cutoff",
+          "severity": "info",
+          "evidence": [
+            {
+              "sourceId": "handoff",
+              "quote": "Documents expected at 2026-10-31T13:30:00Z"
+            },
+            {
+              "sourceId": "booking",
+              "quote": "Documentation cutoff: 2026-10-31T12:00:00Z"
+            }
+          ]
+        }
+      ]
+    },
+    "document-checker": {
+      "findings": [
+        {
+          "summary": "Carton count inconsistency",
+          "severity": "blocker",
+          "evidence": [
+            {
+              "sourceId": "booking",
+              "quote": "Booked quantity: 12 cartons"
+            },
+            {
+              "sourceId": "invoice",
+              "quote": "Quantity: 12 cartons"
+            },
+            {
+              "sourceId": "packing",
+              "quote": "Quantity: 10 cartons"
+            }
+          ]
+        },
+        {
+          "summary": "Weight consistency",
+          "severity": "info",
+          "evidence": [
+            {
+              "sourceId": "invoice",
+              "quote": "Declared weight: 240 kg"
+            },
+            {
+              "sourceId": "packing",
+              "quote": "Declared weight: 240 kg"
+            }
+          ]
+        },
+        {
+          "summary": "Export clearance pending",
+          "severity": "question",
+          "evidence": [
+            {
+              "sourceId": "handoff",
+              "quote": "export clearance pending"
+            }
+          ]
+        },
+        {
+          "summary": "Departure after documentation cutoff",
+          "severity": "info",
+          "evidence": [
+            {
+              "sourceId": "booking",
+              "quote": "Departure: 2026-11-01T03:00:00Z"
+            },
+            {
+              "sourceId": "booking",
+              "quote": "Documentation cutoff: 2026-10-31T12:00:00Z"
+            }
+          ]
+        }
+      ]
+    },
+    "review-drafter": {
+      "findings": [
+        {
+          "summary": "Carton quantity mismatch",
+          "severity": "blocker",
+          "evidence": [
+            {
+              "sourceId": "booking",
+              "quote": "Booked quantity: 12 cartons"
+            },
+            {
+              "sourceId": "packing",
+              "quote": "Quantity: 10 cartons"
+            }
+          ]
+        },
+        {
+          "summary": "Export clearance pending",
+          "severity": "question",
+          "evidence": [
+            {
+              "sourceId": "handoff",
+              "quote": "export clearance pending"
+            }
+          ]
+        },
+        {
+          "summary": "Documents expected after cutoff",
+          "severity": "info",
+          "evidence": [
+            {
+              "sourceId": "handoff",
+              "quote": "Documents expected at 2026-10-31T13:30:00Z"
+            },
+            {
+              "sourceId": "booking",
+              "quote": "Documentation cutoff: 2026-10-31T12:00:00Z"
+            }
+          ]
+        },
+        {
+          "summary": "Departure after documentation cutoff",
+          "severity": "info",
+          "evidence": [
+            {
+              "sourceId": "booking",
+              "quote": "Departure: 2026-11-01T03:00:00Z"
+            },
+            {
+              "sourceId": "booking",
+              "quote": "Documentation cutoff: 2026-10-31T12:00:00Z"
+            }
+          ]
+        }
+      ],
+      "draft": "Please resolve the inconsistencies in carton quantity and pending export clearance for shipment SYNTHETIC-DXB-MAN-031."
+    }
+  },
+  "computedFacts": {
+    "cartons": [
+      {
+        "sourceId": "booking",
+        "cartons": 12
+      },
+      {
+        "sourceId": "invoice",
+        "cartons": 12
+      },
+      {
+        "sourceId": "packing",
+        "cartons": 10
+      }
+    ],
+    "cartonMismatch": true,
+    "expectedDocumentsMinutesAfterCutoff": 90,
+    "departureMinutesAfterCutoff": 900
+  },
+  "requiredChecks": [
+    "Reconcile carton quantities across the labeled source fields.",
+    "Resolve expected documents arriving 90 minutes after the documentation cutoff (booking/handoff)."
+  ],
+  "trace": [
+    {
+      "at": 3,
+      "kind": "loop.start",
+      "agent": "document-checker",
+      "active": 0
+    },
+    {
+      "at": 5,
+      "kind": "loop.start",
+      "agent": "handoff-checker",
+      "active": 0
+    },
+    {
+      "at": 6,
+      "kind": "inference.start",
+      "agent": "document-checker",
+      "active": 1
+    },
+    {
+      "at": 29,
+      "kind": "inference.start",
+      "agent": "handoff-checker",
+      "active": 2
+    },
+    {
+      "at": 7758,
+      "kind": "inference.end",
+      "agent": "handoff-checker",
+      "active": 1
+    },
+    {
+      "at": 7758,
+      "kind": "answer.validated",
+      "agent": "handoff-checker",
+      "active": 1
+    },
+    {
+      "at": 8054,
+      "kind": "inference.end",
+      "agent": "document-checker",
+      "active": 0
+    },
+    {
+      "at": 8054,
+      "kind": "answer.validated",
+      "agent": "document-checker",
+      "active": 0
+    },
+    {
+      "at": 8054,
+      "kind": "loop.start",
+      "agent": "review-drafter",
+      "active": 0
+    },
+    {
+      "at": 8056,
+      "kind": "inference.start",
+      "agent": "review-drafter",
+      "active": 1
+    },
+    {
+      "at": 19362,
+      "kind": "inference.end",
+      "agent": "review-drafter",
+      "active": 0
+    },
+    {
+      "at": 19362,
+      "kind": "answer.validated",
+      "agent": "review-drafter",
+      "active": 0
+    },
+    {
+      "at": 19363,
+      "kind": "review.complete",
+      "agent": "operator",
+      "active": 0
+    }
+  ],
+  "maxConcurrentInferences": 2,
+  "overlapMs": 7729,
+  "draft": "Please resolve the inconsistencies in carton quantity and pending export clearance for shipment SYNTHETIC-DXB-MAN-031.\n\nOperator check: Reconcile carton quantities across the labeled source fields.\n\nOperator check: Resolve expected documents arriving 90 minutes after the documentation cutoff (booking/handoff).",
+  "limitations": [
+    "Quoted source existence is checked; semantic correctness still requires human review.",
+    "Labeled-field checks cover only the named fixture schema; missing fields remain unknown.",
+    "Documents may be inaccurate or malicious. No carrier, customs or identity authentication.",
+    "No email, shipment, booking, payment or clearance action is performed."
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "verifiedAt": "2026-10-31T09:05:13.048Z",
+  "mozaik": "4.2.0",
+  "testsPassed": 7,
+  "typescript": "pass",
+  "workerTypes": "pass",
+  "realModel": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+  "status": "blocked_for_review",
+  "maxConcurrentInferences": 2,
+  "overlapMs": 7729,
+  "source": "docs/receipt.json",
+  "calls": 3,
+  "synthetic": true,
+  "productionImpactMeasured": false
+}
